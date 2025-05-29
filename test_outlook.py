@@ -1,7 +1,7 @@
 import win32com.client
 import logging
 
-# Configuración del registro
+# Logging configuration
 logging.basicConfig(
     filename='log.txt',
     level=logging.INFO,
@@ -10,26 +10,25 @@ logging.basicConfig(
 
 try: 
     outlook = win32com.client.Dispatch("Outlook.Application").GetNamespace("MAPI")
-    inbox = outlook.GetDefaultFolder(6)  # Bandeja de entrada
+    inbox = outlook.GetDefaultFolder(6)  # Inbox folder
     
-    logging.info("Conexion a Outlook establecida.")
+    logging.info("Connection to Outlook established.")
     for item in inbox.Items:
-        if item.Class == 43:  # 43 es el tipo de objeto para correos electrónicos
-            print(f"De: {item.SenderName}, Asunto: {item.Subject}, Recibido: {item.ReceivedTime}")
-            logging.info(f"Correo electrónico encontrado: De: {item.SenderName}, Asunto: {item.Subject}, Recibido: {item.ReceivedTime}")
-        elif item.Class == 26:  # 26 es el tipo de objeto para citas
-            print(f"Cita: {item.Subject}, Comienza: {item.Start}, Termina: {item.End}")
-            logging.info(f"Cita encontrada: Asunto: {item.Subject}, Comienza: {item.Start}, Termina: {item.End}")
+        if item.Class == 43:  # 43 = MailItem
+            print(f"From: {item.SenderName}, Subject: {item.Subject}, Received: {item.ReceivedTime}")
+            logging.info(f"Email found: From: {item.SenderName}, Subject: {item.Subject}, Received: {item.ReceivedTime}")
+        elif item.Class == 26:  # 26 = AppointmentItem
+            print(f"Appointment: {item.Subject}, Starts: {item.Start}, Ends: {item.End}")
+            logging.info(f"Appointment found: Subject: {item.Subject}, Starts: {item.Start}, Ends: {item.End}")
         else:
-            print("Elemento no es un correo electrónico.")
-            logging.info("Elemento ignorado, no es un correo electrónico.")
+            print("Item is not an email.")
+            logging.info("Item ignored, not an email.")
 except Exception as e:
-    logging.error(f"Error al conectar a Outlook: {e}")
+    logging.error(f"Error connecting to Outlook: {e}")
     logging.exception(e)
-# Prueba de conexión a Outlook y listado de correos electrónicos
-    print(f"Error al conectar a Outlook: {e}")
-# Este código se conecta a Outlook y lista los correos electrónicos en la bandeja de entrada.
-# Asegúrate de tener instalado el paquete pywin32 para ejecutar este código
-print("Prueba de conexión a Outlook completada.")
-print(f"Total de correos electrónicos en la bandeja de entrada: {len(inbox.Items)}")
-print("Fin del script de prueba.")
+    print(f"Error connecting to Outlook: {e}")
+
+# Test connection to Outlook and list emails
+print("Outlook connection test completed.")
+print(f"Total emails in inbox: {len(inbox.Items)}")
+print("End of test script.")
