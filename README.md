@@ -22,3 +22,4 @@ This script can be easily extended to include features such as:
 If you'd like to test a custom demo or need a specific feature, feel free to get in touch!
 
 ## the file you need to use is test_outlook.py
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
